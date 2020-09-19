@@ -11,8 +11,11 @@ COPY ["containers/api-auth/src/Auth.Api.csproj", "containers/api-auth/src/"]
 COPY ["dotnet-packages/src/Auth.Domain/Auth.Domain.csproj", "dotnet-packages/src/Auth.Domain/"]
 COPY ["dotnet-packages/src/Auth.Application/Auth.Application.csproj", "dotnet-packages/src/Auth.Application/"]
 COPY ["dotnet-packages/src/Auth.Infra.Data/Auth.Infra.Data.csproj", "dotnet-packages/src/Auth.Infra.Data/"]
+COPY ["dotnet-packages/tests/Auth.Application.Tests/Auth.Application.Tests.csproj", "dotnet-packages/tests/Auth.Application.Tests/"]
 RUN dotnet restore "containers/api-auth/src/Auth.Api.csproj"
+RUN dotnet restore "dotnet-packages/tests/Auth.Application.Tests/Auth.Application.Tests.csproj"
 COPY . .
+RUN dotnet test "dotnet-packages/tests/Auth.Application.Tests/Auth.Application.Tests.csproj"
 WORKDIR /src/containers/api-auth/src
 RUN dotnet build "Auth.Api.csproj" -c Release -o /app/build
 
